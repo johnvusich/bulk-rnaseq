@@ -1,10 +1,10 @@
-## bulk-rnaseq
+# bulk-rnaseq
 Workflow to quantify transcript-level RNASeq abundance, detect differentially expressed genes (DEGs), and perform gene set enrichment analysis ('GSEA'). This pipeline uses `STAR` to map FASTQ reads to the reference genome, `Salmon` to perform BAM-level quantification, and `DESeq2` to normalize counts and detect DEGs.
 
-# Resource Requirements
+## Resource Requirements
 STAR typically uses around 38GB of RAM. It is recommended to run this workflow on an HPC.
 
-# Steps
+## Steps
 1. Create a directory for your your analysis (ex: /mnt/home/$username/rnaseq).
 2. Make a samplesheet table in csv format. (ex: samplesheet.csv)
 3. Make a nextflow configuration file. (ex: nextflow.config)
@@ -12,12 +12,12 @@ STAR typically uses around 38GB of RAM. It is recommended to run this workflow o
 5. Write a bash script to run the pipeline using SLURM. (ex: run_rnaseq.sb)
 6. Run the pipeline from your rnaseq directory. (ex: sbatch run_rnaseq.sb)
 
-# Create a directory for your rnaseq analysis
+## Create a directory for your rnaseq analysis
 Login to your HPCC account using OnDemand. Navigate to your home directory by clicking 'Files' in the navigation bar. Select 'Home Directory'.
 
 Create a directory for your analysis by clicking 'New Directory'. Name your directory (ex: rnaseq). Navigate to the newly created rnaseq directory.
 
-# Make a samplesheet table
+## Make a samplesheet table
 In your rnaseq directory, click 'New File'. Name the file 'samplesheet.csv'. Click the `⋮` symbol and select edit. Create the samplesheet table, for example:
 ```
 sample,fastq_1,fastq_2,strandedness
@@ -27,7 +27,7 @@ CONTROL_REP3,/path/to/fastq/files/CONTROL_REP3_R1_001.fastq.gz,/path/to/fastq/fi
 ```
 Save the samplesheet.csv file and return to your rnaseq directory.
 
-# Make a Nextflow configuration file to use SLURM as the process executor
+## Make a Nextflow configuration file to use SLURM as the process executor
 In your rnaseq directory, click `New File`. Name the file 'nextflow.config'. Click the `⋮` symbol and select edit. Create the Nextflow config file:
 ```
 process {
@@ -36,7 +36,7 @@ process {
 ```
 Save the nextflow.config file and return to your rnaseq directory.
 
-# Download the reference genome and gtf files in your rnaseq directory
+## Download the reference genome and gtf files in your rnaseq directory
 In your rnaseq directory, click `Open in Terminal` to enter a development node. Download the most recent genome primary assembly and gtf for the organism of interest from [Ensembl](https://ensembl.org/). This may take more than a few minutes. For example:
 ```
 wget https://ftp.ensembl.org/pub/release-108/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
@@ -45,7 +45,7 @@ wget https://ftp.ensembl.org/pub/release-108/gtf/homo_sapiens/Homo_sapiens.GRCh3
 ```
 Note: If you do not download the genome and gtf for the organism that the RNA-seq data is derived from, this pipeline will not work correctly.
 
-# Write a bash script to run the pipeline using SLURM
+## Write a bash script to run the pipeline using SLURM
 In your rnaseq directory, click `New File`. Name the file 'run_rnaseq.sb;. Write the bash script, using #SBATCH directives to set resources, for example:
 ```
 #!/bin/bash
@@ -63,7 +63,7 @@ nextflow run nf-core/rnaseq -r 3.14.0 --input ./samplesheet.csv  -profile singul
 ```
 Save the run_rnaseq.sb file and return to your rnaseq directory.
 
-# Run the pipeline
+## Run the pipeline
 In your rnaseq directory, click `Open in Terminal` to enter a development node. Run jobs on the SLURM cluster:
 ```
 sbatch run_rnaseq.sb
